@@ -2,6 +2,11 @@ FROM ruby:alpine
 
 RUN apk update && apk add bash build-base nodejs postgresql-dev tzdata
 
+
+RUN addgroup --gid montoya user
+RUN adduser --disabled-password --gecos '' --uid montoya --gid montoya user
+USER user
+
 RUN mkdir /project
 WORKDIR /project
 

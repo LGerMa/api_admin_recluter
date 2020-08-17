@@ -1,0 +1,2 @@
+class PersonalDocument < ApplicationRecord
+end
