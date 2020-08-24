@@ -9,7 +9,7 @@ class AddBasicInfoToUser < ActiveRecord::Migration[6.0]
     add_column :users, :status, :integer, default: 0
     add_column :users, :additional_info, :text, default: ''
 
-    add_reference :users, :countries, index:true, foreign_key: true
+    add_reference :users, :country, index:true, foreign_key: true
   end
 
   def down
@@ -22,6 +22,6 @@ class AddBasicInfoToUser < ActiveRecord::Migration[6.0]
     remove_column :users, :status
     remove_column :users, :additional_info
 
-    remove_reference :users, :countries, index:true, foreign_key: true
+    remove_reference :users, :country, index:true, foreign_key: true
   end
 end

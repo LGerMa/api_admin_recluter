@@ -4,7 +4,7 @@ class CreateBanks < ActiveRecord::Migration[6.0]
       t.string :name, default: ''
       t.integer :status, default: 0
 
-      t.references :countries, index:true, foreign_key: true
+      t.references :country, index:true, foreign_key: true
 
       t.timestamps
     end

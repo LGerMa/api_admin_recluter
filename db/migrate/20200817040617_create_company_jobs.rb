@@ -12,8 +12,8 @@ class CreateCompanyJobs < ActiveRecord::Migration[6.0]
 
 
 
-      t.references :countries, index: true, foreign_key: true
-      t.references :companies, index: true,  foreign_key: true
+      t.references :country, index: true, foreign_key: true
+      t.references :company, index: true,  foreign_key: true
       t.references :sale_employee, index: true, foreign_key: { to_table: :users}
       t.references :interview_employee, index: true, foreign_key: {to_table: :users}
       t.references :payment_employee, index:true, foreign_key: {to_table: :users}

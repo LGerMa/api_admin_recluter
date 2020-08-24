@@ -3,24 +3,24 @@
 class CreateDoorkeeperTables < ActiveRecord::Migration[6.0]
   def change
     create_table :oauth_applications do |t|
-      t.string  :name,    null: false
-      t.string  :uid,     null: false
-      t.string  :secret,  null: false
+      t.string  :name
+      t.string  :uid
+      t.string  :secret
 
       # Remove `null: false` if you are planning to use grant flows
       # that doesn't require redirect URI to be used during authorization
       # like Client Credentials flow or Resource Owner Password.
-      t.text    :redirect_uri, null: false
-      t.string  :scopes,       null: false, default: ''
-      t.boolean :confidential, null: false, default: true
-      t.timestamps             null: false
+      t.text    :redirect_uri
+      t.string  :scopes, default: ''
+      t.boolean :confidential, default: true
+      t.timestamps
     end
 
     add_index :oauth_applications, :uid, unique: true
 
     create_table :oauth_access_grants do |t|
       t.references :resource_owner,  null: false
-      t.references :application,     null: false
+      t.references :application
       t.string   :token,             null: false
       t.integer  :expires_in,        null: false
       t.text     :redirect_uri,      null: false
@@ -41,7 +41,7 @@ class CreateDoorkeeperTables < ActiveRecord::Migration[6.0]
 
       # Remove `null: false` if you are planning to use Password
       # Credentials Grant flow that doesn't require an application.
-      t.references :application,    null: false
+      t.references :application
 
       # If you use a custom token generator you may need to change this column
       # from string to text, so that it accepts tokens larger than 255

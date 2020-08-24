@@ -8,7 +8,7 @@ class CreateCompanies < ActiveRecord::Migration[6.0]
       t.text :additional_info, default: ''
 
 
-      t.references :countries, index: true, foreign_key: true
+      t.references :country, index: true, foreign_key: true
 
       t.timestamps
     end

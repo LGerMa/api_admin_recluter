@@ -8,7 +8,7 @@ class CreateWorkExperiences < ActiveRecord::Migration[6.0]
       t.date :end_date
       t.boolean :current_work_experience, default: false
 
-      t.references :countries, index: true, foreign_key: true
+      t.references :country, index: true, foreign_key: true
       t.references :workable, polymorphic: true, index: true
 
       t.timestamps

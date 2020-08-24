@@ -18,10 +18,10 @@ ActiveRecord::Schema.define(version: 2020_08_17_051052) do
   create_table "banks", force: :cascade do |t|
     t.string "name", default: ""
     t.integer "status", default: 0
-    t.bigint "countries_id"
+    t.bigint "country_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["countries_id"], name: "index_banks_on_countries_id"
+    t.index ["country_id"], name: "index_banks_on_country_id"
   end
 
   create_table "candidates", force: :cascade do |t|
@@ -32,10 +32,10 @@ ActiveRecord::Schema.define(version: 2020_08_17_051052) do
     t.date "birthdate", default: "2000-01-01"
     t.integer "status", default: 0
     t.text "additional_info", default: ""
-    t.bigint "countries_id"
+    t.bigint "country_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["countries_id"], name: "index_candidates_on_countries_id"
+    t.index ["country_id"], name: "index_candidates_on_country_id"
   end
 
   create_table "companies", force: :cascade do |t|
@@ -44,10 +44,10 @@ ActiveRecord::Schema.define(version: 2020_08_17_051052) do
     t.integer "economic_solvency", default: 0
     t.integer "status", default: 0
     t.text "additional_info", default: ""
-    t.bigint "countries_id"
+    t.bigint "country_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["countries_id"], name: "index_companies_on_countries_id"
+    t.index ["country_id"], name: "index_companies_on_country_id"
   end
 
   create_table "company_contacts", force: :cascade do |t|
@@ -70,15 +70,15 @@ ActiveRecord::Schema.define(version: 2020_08_17_051052) do
     t.date "contract_date"
     t.integer "job_status", default: 0
     t.text "additional_info", default: ""
-    t.bigint "countries_id"
-    t.bigint "companies_id"
+    t.bigint "country_id"
+    t.bigint "company_id"
     t.bigint "sale_employee_id"
     t.bigint "interview_employee_id"
     t.bigint "payment_employee_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["companies_id"], name: "index_company_jobs_on_companies_id"
-    t.index ["countries_id"], name: "index_company_jobs_on_countries_id"
+    t.index ["company_id"], name: "index_company_jobs_on_company_id"
+    t.index ["country_id"], name: "index_company_jobs_on_country_id"
     t.index ["interview_employee_id"], name: "index_company_jobs_on_interview_employee_id"
     t.index ["payment_employee_id"], name: "index_company_jobs_on_payment_employee_id"
     t.index ["sale_employee_id"], name: "index_company_jobs_on_sale_employee_id"
@@ -107,7 +107,7 @@ ActiveRecord::Schema.define(version: 2020_08_17_051052) do
 
   create_table "oauth_access_grants", force: :cascade do |t|
     t.bigint "resource_owner_id", null: false
-    t.bigint "application_id", null: false
+    t.bigint "application_id"
     t.string "token", null: false
     t.integer "expires_in", null: false
     t.text "redirect_uri", null: false
@@ -121,7 +121,7 @@ ActiveRecord::Schema.define(version: 2020_08_17_051052) do
 
   create_table "oauth_access_tokens", force: :cascade do |t|
     t.bigint "resource_owner_id"
-    t.bigint "application_id", null: false
+    t.bigint "application_id"
     t.string "token", null: false
     t.string "refresh_token"
     t.integer "expires_in"
@@ -136,12 +136,12 @@ ActiveRecord::Schema.define(version: 2020_08_17_051052) do
   end
 
   create_table "oauth_applications", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "uid", null: false
-    t.string "secret", null: false
-    t.text "redirect_uri", null: false
-    t.string "scopes", default: "", null: false
-    t.boolean "confidential", default: true, null: false
+    t.string "name"
+    t.string "uid"
+    t.string "secret"
+    t.text "redirect_uri"
+    t.string "scopes", default: ""
+    t.boolean "confidential", default: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["uid"], name: "index_oauth_applications_on_uid", unique: true
@@ -170,12 +170,12 @@ ActiveRecord::Schema.define(version: 2020_08_17_051052) do
   create_table "user_banks", force: :cascade do |t|
     t.string "account_number"
     t.integer "account_type", default: 0
-    t.bigint "users_id"
-    t.bigint "banks_id"
+    t.bigint "user_id"
+    t.bigint "bank_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["banks_id"], name: "index_user_banks_on_banks_id"
-    t.index ["users_id"], name: "index_user_banks_on_users_id"
+    t.index ["bank_id"], name: "index_user_banks_on_bank_id"
+    t.index ["user_id"], name: "index_user_banks_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -193,8 +193,8 @@ ActiveRecord::Schema.define(version: 2020_08_17_051052) do
     t.jsonb "emergency_info"
     t.integer "status", default: 0
     t.text "additional_info", default: ""
-    t.bigint "countries_id"
-    t.index ["countries_id"], name: "index_users_on_countries_id"
+    t.bigint "country_id"
+    t.index ["country_id"], name: "index_users_on_country_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -214,20 +214,20 @@ ActiveRecord::Schema.define(version: 2020_08_17_051052) do
     t.date "start_date"
     t.date "end_date"
     t.boolean "current_work_experience", default: false
-    t.bigint "countries_id"
+    t.bigint "country_id"
     t.string "workable_type"
     t.bigint "workable_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["countries_id"], name: "index_work_experiences_on_countries_id"
+    t.index ["country_id"], name: "index_work_experiences_on_country_id"
     t.index ["workable_type", "workable_id"], name: "index_work_experiences_on_workable_type_and_workable_id"
   end
 
-  add_foreign_key "banks", "countries", column: "countries_id"
-  add_foreign_key "candidates", "countries", column: "countries_id"
-  add_foreign_key "companies", "countries", column: "countries_id"
-  add_foreign_key "company_jobs", "companies", column: "companies_id"
-  add_foreign_key "company_jobs", "countries", column: "countries_id"
+  add_foreign_key "banks", "countries"
+  add_foreign_key "candidates", "countries"
+  add_foreign_key "companies", "countries"
+  add_foreign_key "company_jobs", "companies"
+  add_foreign_key "company_jobs", "countries"
   add_foreign_key "company_jobs", "users", column: "interview_employee_id"
   add_foreign_key "company_jobs", "users", column: "payment_employee_id"
   add_foreign_key "company_jobs", "users", column: "sale_employee_id"
@@ -235,8 +235,8 @@ ActiveRecord::Schema.define(version: 2020_08_17_051052) do
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
-  add_foreign_key "user_banks", "banks", column: "banks_id"
-  add_foreign_key "user_banks", "users", column: "users_id"
-  add_foreign_key "users", "countries", column: "countries_id"
-  add_foreign_key "work_experiences", "countries", column: "countries_id"
+  add_foreign_key "user_banks", "banks"
+  add_foreign_key "user_banks", "users"
+  add_foreign_key "users", "countries"
+  add_foreign_key "work_experiences", "countries"
 end

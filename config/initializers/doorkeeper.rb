@@ -11,7 +11,15 @@ Doorkeeper.configure do
     # Put your resource owner authentication logic here.
     # Example implementation:
     #   User.find_by(id: session[:user_id]) || redirect_to(new_user_session_url)
-    current_user || warden.authenticate!(scope: :user)
+    #current_user || warden.authenticate!(scope: :user)
+  end
+
+  resource_owner_from_credentials do |routes|
+    resource_instance = User.find_for_database_authentication(email: params[:email])
+
+    if resource_instance && resource_instance.valid_for_authentication?
+      resource_instance
+    end
   end
 
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
@@ -80,7 +88,7 @@ Doorkeeper.configure do
   # want to use API mode that will skip all the views management and change the way how
   # Doorkeeper responds to a requests.
   #
-  # api_only
+  api_only
 
   # Enforce token request content type to application/x-www-form-urlencoded.
   # It is not enabled by default to not break prior versions of the gem.
@@ -95,6 +103,7 @@ Doorkeeper.configure do
   # If you want to disable expiration, set this to `nil`.
   #
   # access_token_expires_in 2.hours
+  access_token_expires_in 1.week
 
   # Assign custom TTL for access tokens. Will be used instead of access_token_expires_in
   # option if defined. In case the block returns `nil` value Doorkeeper fallbacks to
@@ -133,7 +142,7 @@ Doorkeeper.configure do
   #
   # You can not enable this option together with +hash_token_secrets+.
   #
-  # reuse_access_token
+  reuse_access_token
 
   # In case you enabled `reuse_access_token` option Doorkeeper will try to find matching
   # token using `matching_token_for` Access Token API that searches for valid records
@@ -161,7 +170,7 @@ Doorkeeper.configure do
   # using the same credentials at the same time (e.g. web servers spanning
   # multiple machines and/or processes).
   #
-  # revoke_previous_client_credentials_token
+  revoke_previous_client_credentials_token
 
   # Hash access and refresh tokens before persisting them.
   # This will disable the possibility to use +reuse_access_token+
@@ -346,6 +355,7 @@ Doorkeeper.configure do
   #   http://tools.ietf.org/html/rfc6819#section-4.4.3
   #
   # grant_flows %w[authorization_code client_credentials]
+  grant_flows %w(password)
 
   # Allows to customize OAuth grant flows that +each+ application support.
   # You can configure a custom block (or use a class respond to `#call`) that must

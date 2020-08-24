@@ -19,6 +19,7 @@ gem 'doorkeeper'
 gem 'figaro'
 gem 'cancancan'
 gem 'rolify'
+gem 'active_model_serializers'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
@@ -33,6 +34,11 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails'
+  gem 'database_cleaner'
+  gem 'factory_bot'
+  gem 'faker'
+  gem 'shoulda'
+
 end
 
 group :development do
