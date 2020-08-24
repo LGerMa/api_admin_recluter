@@ -3,28 +3,28 @@ class Api::V1::CountriesController < Api::BaseController
   before_action :set_country, only: [:show, :update]
 
   def index
-    countries = Country.all()
-      #render json: countries, each_serializer: Api::V1::CountrySerializer
-    json_response countries, each_serializer: Api::V1::CountrySerializer
+    json_response Country.all,
+                  each_serializer: Api::V1::CountrySerializer
   end
 
   def create
-    country = Country.create!(country_params)
-    json_response country, serializer: Api::V1::CountrySerializer ,status: :created
+    json_response Country.create!(country_params),
+                  status: :created
   rescue
-    json_response country.errors, status: :unprocessable_entity
+    json_response status: :unprocessable_entity
   end
 
   def update
     if @country.update(country_params)
       json_response @country
     else
-      json_response @country.errors, status: :unprocessable_entity
+      json_response @country.errors,
+                    status: :unprocessable_entity
     end
   end
 
   def show
-    json_response @country, serializer: Api::V1::CountrySerializer
+    json_response @country
   end
 
   private
@@ -38,7 +38,7 @@ class Api::V1::CountriesController < Api::BaseController
     def set_country
       @country = Country.find(params[:id])
     rescue ActiveRecord::RecordNotFound
-      json_response [], status: :not_found
+      json_response status: :not_found
     end
 
 end
