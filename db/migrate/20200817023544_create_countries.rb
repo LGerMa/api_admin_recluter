@@ -2,6 +2,7 @@ class CreateCountries < ActiveRecord::Migration[6.0]
   def up
     create_table :countries do |t|
       t.string :name
+      t.string :code
       t.string :url_flag
       t.string :symbol_currency
       t.string :currency_type

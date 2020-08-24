@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 2020_08_17_051052) do
 
   create_table "countries", force: :cascade do |t|
     t.string "name"
+    t.string "code"
     t.string "url_flag"
     t.string "symbol_currency"
     t.string "currency_type"
