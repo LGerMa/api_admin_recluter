@@ -1,5 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe WorkExperience, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it { should belong_to :country }
+  it { should belong_to :workable }
 end

@@ -1,4 +1,4 @@
-class CreatePersonalDocuments < ActiveRecord::Migration[6.0]
+class CreateDocuments < ActiveRecord::Migration[6.0]
   def up
     create_table :documents do |t|
 

@@ -1,5 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Company, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it { should belong_to :country }
+  it { should have_many :company_jobs }
 end

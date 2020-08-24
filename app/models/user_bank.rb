@@ -1,4 +1,4 @@
 class UserBank < ApplicationRecord
-  belongs_to :users
-  belongs_to :banks
+  belongs_to :user
+  belongs_to :bank
 end
