@@ -10,8 +10,9 @@ class Api::V1::CountriesController < Api::BaseController
   def create
     json_response Country.create!(country_params),
                   status: :created
-  rescue
-    json_response status: :unprocessable_entity
+  rescue Exception => e
+    error = {'message': e.message}
+    json_response error, status: :unprocessable_entity
   end
 
   def update

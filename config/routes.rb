@@ -6,7 +6,11 @@ Rails.application.routes.draw do
     namespace :v1 do
       #91684785
       get '/users/me', to: 'users#me', as: 'user_me'
-      resources :countries, only: [:index, :create, :show, :update]
+      resources :countries
+      resources :banks
+      resources :candidates do
+        resources :phones
+      end
     end
   end
 end
