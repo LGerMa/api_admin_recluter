@@ -1,9 +1,13 @@
 class Candidate < ApplicationRecord
   belongs_to :country
   has_many :phones, :as => :phoneable
+  has_many :documents, :as => :documentable
+  has_many :work_experiences, :as => :workable
   before_create :assign_candidate_code, :config_date
 
   enum status: { active: 0, inactive: 1 }
+
+  include GeneralConcern
 
   private
   def assign_candidate_code
@@ -21,10 +25,6 @@ class Candidate < ApplicationRecord
     candidate_code = candidate_start+lastname+month+year
     count = Candidate.where('candidate_code ILIKE ? ', "%"+candidate_code+"%").count
     self.candidate_code = candidate_code+count.to_s
-  end
-
-  def sample_string
-    ('A'..'Z').to_a.sample(2).join
   end
 
   def config_date

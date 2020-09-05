@@ -10,6 +10,14 @@ Rails.application.routes.draw do
       resources :banks
       resources :candidates do
         resources :phones
+        resources :documents
+        resources :work_experiences
+      end
+
+      resources :companies do
+        resources :documents
+        resources :company_contacts
+        resources :company_jobs
       end
     end
   end

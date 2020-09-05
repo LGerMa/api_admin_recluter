@@ -3,4 +3,6 @@ class Api::V1::CandidateSerializer < ActiveModel::Serializer
   :status, :additional_info
   belongs_to :country
   has_many :phones
+  has_many :documents
+  has_many :work_experiences
 end

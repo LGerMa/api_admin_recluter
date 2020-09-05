@@ -1,4 +1,5 @@
 class Api::V1::PhonesController < Api::BaseController
+  include PolymorphicAssociationConcern
   before_action :find_phoneable
   before_action :set_phone, only: [:show, :update]
 
@@ -23,24 +24,16 @@ class Api::V1::PhonesController < Api::BaseController
     if @phone.update(phone_params)
       json_response @phone
     else
-      json_response @bank.errors,
+      json_response @phone.errors,
                     status: :unprocessable_entity
     end
   end
 
   private
     def find_phoneable
-      type = ''
-      value = ''
-      if params[:candidate_id]
-        type = 'candidate'
-        value = params[:candidate_id]
-      elsif params[:company_id]
-        type = 'company'
-        value = [:company_id]
-      end
-      @klass = type.capitalize.constantize
-      @phoneable = @klass.find(value)
+      klass = getKlass
+      @klass = klass['klass']
+      @phoneable = @klass.find(klass['value'])
     rescue
       json_response status: :not_found
     end
