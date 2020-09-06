@@ -11,7 +11,7 @@ class Api::V1::DocumentsController < Api::BaseController
   end
 
   def create
-    json_response @documentable.documents.create(document_params),
+    json_response @documentable.documents.create!(document_params),
                   status: :created
   rescue Exception => e
     error = {'message': e.message}
@@ -42,7 +42,7 @@ class Api::V1::DocumentsController < Api::BaseController
 
     def document_params
       params.require(:document).permit(
-          :document_type, :document_value
+          :document_type_id, :document_value
       )
     end
 

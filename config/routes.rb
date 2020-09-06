@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       get '/users/me', to: 'users#me', as: 'user_me'
       resources :countries
       resources :banks
+      resources :document_types
       resources :candidates do
         resources :phones
         resources :documents
@@ -17,7 +18,9 @@ Rails.application.routes.draw do
       resources :companies do
         resources :documents
         resources :company_contacts
-        resources :company_jobs
+        resources :company_jobs do
+          resources :job_vacancies
+        end
       end
     end
   end

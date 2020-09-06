@@ -38,7 +38,7 @@ class Api::V1::CountriesController < Api::BaseController
 
     def set_country
       @country = Country.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
+    rescue
       json_response status: :not_found
     end
 

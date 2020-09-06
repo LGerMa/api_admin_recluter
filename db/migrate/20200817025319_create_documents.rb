@@ -3,8 +3,8 @@ class CreateDocuments < ActiveRecord::Migration[6.0]
     create_table :documents do |t|
 
       t.string :document_value, default: ''
-      t.integer :document_type, default: 0
 
+      t.references :document_type, index: true, foreign_key: true
       t.references :documentable, polymorphic: true, index: true
       t.timestamps
     end
