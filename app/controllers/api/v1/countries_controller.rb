@@ -1,5 +1,5 @@
 class Api::V1::CountriesController < Api::BaseController
-  #before_action :country_params, only: [:create, :update]
+  before_action :country_params, only: [:create, :update]
   before_action :set_country, only: [:show, :update]
 
   def index
