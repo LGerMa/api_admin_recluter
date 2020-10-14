@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_17_051052) do
+ActiveRecord::Schema.define(version: 2020_09_06_015945) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,27 +65,24 @@ ActiveRecord::Schema.define(version: 2020_08_17_051052) do
   create_table "company_jobs", force: :cascade do |t|
     t.string "company_job_code"
     t.text "job_detail", default: ""
-    t.decimal "monthly_amount", precision: 5, scale: 2
-    t.decimal "debt_amount", precision: 5, scale: 2
+    t.integer "monthly_amount"
+    t.integer "debt_amount"
     t.date "contract_date"
     t.integer "job_status", default: 0
     t.text "additional_info", default: ""
     t.bigint "country_id"
     t.bigint "company_id"
-    t.bigint "sale_employee_id"
-    t.bigint "interview_employee_id"
-    t.bigint "payment_employee_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "qty_vacancy", default: 0
+    t.string "job_title"
     t.index ["company_id"], name: "index_company_jobs_on_company_id"
     t.index ["country_id"], name: "index_company_jobs_on_country_id"
-    t.index ["interview_employee_id"], name: "index_company_jobs_on_interview_employee_id"
-    t.index ["payment_employee_id"], name: "index_company_jobs_on_payment_employee_id"
-    t.index ["sale_employee_id"], name: "index_company_jobs_on_sale_employee_id"
   end
 
   create_table "countries", force: :cascade do |t|
     t.string "name"
+    t.string "code"
     t.string "url_flag"
     t.string "symbol_currency"
     t.string "currency_type"
@@ -95,14 +92,41 @@ ActiveRecord::Schema.define(version: 2020_08_17_051052) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "document_types", force: :cascade do |t|
+    t.string "doc_type"
+    t.integer "status", default: 0
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "documents", force: :cascade do |t|
     t.string "document_value", default: ""
-    t.integer "document_type", default: 0
+    t.bigint "document_type_id"
     t.string "documentable_type"
     t.bigint "documentable_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["document_type_id"], name: "index_documents_on_document_type_id"
     t.index ["documentable_type", "documentable_id"], name: "index_documents_on_documentable_type_and_documentable_id"
+  end
+
+  create_table "job_vacancies", force: :cascade do |t|
+    t.date "start_date"
+    t.date "end_date"
+    t.integer "status", default: 0
+    t.bigint "company_job_id", null: false
+    t.bigint "candidate_id"
+    t.bigint "sale_employee_id"
+    t.bigint "interview_employee_id"
+    t.bigint "payment_employee_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["candidate_id"], name: "index_job_vacancies_on_candidate_id"
+    t.index ["company_job_id"], name: "index_job_vacancies_on_company_job_id"
+    t.index ["interview_employee_id"], name: "index_job_vacancies_on_interview_employee_id"
+    t.index ["payment_employee_id"], name: "index_job_vacancies_on_payment_employee_id"
+    t.index ["sale_employee_id"], name: "index_job_vacancies_on_sale_employee_id"
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -228,9 +252,12 @@ ActiveRecord::Schema.define(version: 2020_08_17_051052) do
   add_foreign_key "companies", "countries"
   add_foreign_key "company_jobs", "companies"
   add_foreign_key "company_jobs", "countries"
-  add_foreign_key "company_jobs", "users", column: "interview_employee_id"
-  add_foreign_key "company_jobs", "users", column: "payment_employee_id"
-  add_foreign_key "company_jobs", "users", column: "sale_employee_id"
+  add_foreign_key "documents", "document_types"
+  add_foreign_key "job_vacancies", "candidates"
+  add_foreign_key "job_vacancies", "company_jobs"
+  add_foreign_key "job_vacancies", "users", column: "interview_employee_id"
+  add_foreign_key "job_vacancies", "users", column: "payment_employee_id"
+  add_foreign_key "job_vacancies", "users", column: "sale_employee_id"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
