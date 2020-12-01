@@ -1,6 +1,7 @@
 class CompanyJob < ApplicationRecord
   belongs_to :country
   belongs_to :company
+  belongs_to :company_contact, optional: true
   has_many :job_vacancies
 
   enum job_status: {created: 0, published: 1, active: 2, inactive: 3}

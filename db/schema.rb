@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_06_015945) do
+ActiveRecord::Schema.define(version: 2020_12_01_230818) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,8 @@ ActiveRecord::Schema.define(version: 2020_09_06_015945) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "qty_vacancy", default: 0
     t.string "job_title"
+    t.bigint "company_contact_id"
+    t.index ["company_contact_id"], name: "index_company_jobs_on_company_contact_id"
     t.index ["company_id"], name: "index_company_jobs_on_company_id"
     t.index ["country_id"], name: "index_company_jobs_on_country_id"
   end
@@ -251,6 +253,7 @@ ActiveRecord::Schema.define(version: 2020_09_06_015945) do
   add_foreign_key "candidates", "countries"
   add_foreign_key "companies", "countries"
   add_foreign_key "company_jobs", "companies"
+  add_foreign_key "company_jobs", "company_contacts"
   add_foreign_key "company_jobs", "countries"
   add_foreign_key "documents", "document_types"
   add_foreign_key "job_vacancies", "candidates"
