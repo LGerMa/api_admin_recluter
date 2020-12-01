@@ -30,7 +30,7 @@ class Api::V1::BanksController < Api::BaseController
   private
     def bank_params
       params.require(:bank).permit(
-          :name, :country_id
+          :name, :country_id, :status
       )
     end
 

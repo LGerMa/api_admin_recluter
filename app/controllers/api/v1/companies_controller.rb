@@ -30,7 +30,7 @@ class Api::V1::CompaniesController < Api::BaseController
 
     def company_params
       params.require(:company).permit(
-          :name, :additional_info, :country_id
+          :name, :additional_info, :country_id, :status
       )
     end
 

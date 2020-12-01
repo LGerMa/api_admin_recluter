@@ -5,5 +5,6 @@ class Api::V1::CompanyJobSerializer < ActiveModel::Serializer
 
   belongs_to :country
   belongs_to :company
+  belongs_to :company_contact
   has_many :job_vacancies
 end

@@ -41,7 +41,7 @@ class Api::V1::CompanyJobsController < Api::BaseController
       params.require(:company_job).permit(
           :job_detail, :monthly_amount, :debt_amount, :contract_date,
           :job_status, :additional_info, :country_id, :company_id,
-          :qty_vacancy, :job_title
+          :qty_vacancy, :job_title, :company_contact_id
       )
     end
 
